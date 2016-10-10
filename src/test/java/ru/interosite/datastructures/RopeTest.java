@@ -19,7 +19,6 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode left = new RopeNode("Hel");
         RopeNode right = new RopeNode("lo");
         RopeNode concat = Rope.concat(left, right);
-        assertEquals(5, concat.getLength());
         assertEquals("Hello", concat.getData());
     }
 
@@ -29,7 +28,6 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode concat = Rope.concat(left, right);
         RopeNode leaf = new RopeNode("world");
         concat = Rope.concat(concat, leaf);
-        assertEquals(10, concat.getLength());
         assertEquals('e', Rope.index(concat, 1));
         assertEquals('d', Rope.index(concat, 9));
         assertEquals("Helloworld", concat.getData());
@@ -56,13 +54,13 @@ import static ru.interosite.datastructures.Rope.RopeNode;
 
     @Test public void shouldThrowInLeafOnLargerIndex() {
         RopeNode node = new RopeNode("Hello world");
-        thrown.expect(ArrayIndexOutOfBoundsException.class);
+        thrown.expect(IndexOutOfBoundsException.class);
         Rope.index(node, 11);
     }
 
     @Test public void shouldThrowInLeafOnNegativeIndex() {
         RopeNode node = new RopeNode("Hello world");
-        thrown.expect(ArrayIndexOutOfBoundsException.class);
+        thrown.expect(IndexOutOfBoundsException.class);
         Rope.index(node, -1);
     }
 
@@ -70,7 +68,7 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode left = new RopeNode("Hello");
         RopeNode right = new RopeNode(" world");
         RopeNode concat = Rope.concat(left, right);
-        thrown.expect(ArrayIndexOutOfBoundsException.class);
+        thrown.expect(IndexOutOfBoundsException.class);
         Rope.index(concat, 11);
     }
 
@@ -78,14 +76,14 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode left = new RopeNode("Hello");
         RopeNode right = new RopeNode(" world");
         RopeNode concat = Rope.concat(left, right);
-        thrown.expect(ArrayIndexOutOfBoundsException.class);
+        thrown.expect(IndexOutOfBoundsException.class);
         Rope.index(concat, -1);
     }
 
     @Test public void shouldSplitSingleLeaf() {
         RopeNode node = new RopeNode("Hello world");
         List<RopeNode> nodes = Rope.split(node, 5);
-        assertEquals(2, nodes.size() == 2);
+        assertEquals(2, nodes.size());
         assertEquals("Hello", nodes.get(0).getData());
         assertEquals(" world", nodes.get(1).getData());
     }
