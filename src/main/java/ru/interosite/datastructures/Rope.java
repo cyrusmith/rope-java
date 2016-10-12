@@ -1,40 +1,47 @@
 package ru.interosite.datastructures;
 
-import com.google.common.base.Preconditions;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
 public class Rope {
 
     public static class RopeNode {
+
         private int weight;
         private RopeNode left;
         private RopeNode right;
         private String data;
 
         public RopeNode(String data) {
-            requireNonNull(data);
-            weight = data.length();
-            this.data = data;
-            left = null;
-            right = null;
+            this(null, null, data.length(), data);
         }
 
-        private RopeNode(RopeNode left, RopeNode right, int weight) {
-            requireNonNull(left);
-            requireNonNull(right);
-            data = null;
+        public RopeNode(RopeNode left, RopeNode right, int weight) {
+            this(left, right, weight, null);
+        }
+
+        public RopeNode(RopeNode left, RopeNode right, int weight, String data) {
+            this.data = data;
             this.weight = weight;
             this.left = left;
             this.right = right;
         }
 
-        public String getData() {
+        public String buildData() {
             StringBuilder sb = new StringBuilder();
             buildData(this, sb);
             return sb.toString();
+        }
+
+        public void setLeft(RopeNode left) {
+            this.left = left;
+        }
+
+        public void setRight(RopeNode right) {
+            this.right = right;
         }
 
         private static void buildData(RopeNode node, StringBuilder sb) {

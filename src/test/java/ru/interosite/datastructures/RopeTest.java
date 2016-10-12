@@ -19,7 +19,7 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode left = new RopeNode("Hel");
         RopeNode right = new RopeNode("lo");
         RopeNode concat = Rope.concat(left, right);
-        assertEquals("Hello", concat.getData());
+        assertEquals("Hello", concat.buildData());
     }
 
     @Test public void shouldConcatConcatAndLeaf() {
@@ -30,7 +30,7 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         concat = Rope.concat(concat, leaf);
         assertEquals('e', Rope.index(concat, 1));
         assertEquals('d', Rope.index(concat, 9));
-        assertEquals("Helloworld", concat.getData());
+        assertEquals("Helloworld", concat.buildData());
     }
 
     @Test public void shouldGetIndexFromLeft() {
@@ -84,7 +84,7 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         RopeNode node = new RopeNode("Hello world");
         List<RopeNode> nodes = Rope.split(node, 5);
         assertEquals(2, nodes.size());
-        assertEquals("Hello", nodes.get(0).getData());
-        assertEquals(" world", nodes.get(1).getData());
+        assertEquals("Hello", nodes.get(0).buildData());
+        assertEquals(" world", nodes.get(1).buildData());
     }
 }
