@@ -42,7 +42,9 @@ public class Rope {
                 sb.append(node.data);
             } else {
                 buildData(node.left, sb);
-                buildData(node.right, sb);
+                if (node.right != null) {
+                    buildData(node.right, sb);
+                }
             }
         }
     }
