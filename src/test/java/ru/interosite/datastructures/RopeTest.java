@@ -134,19 +134,12 @@ import static ru.interosite.datastructures.Rope.RopeNode;
     }
 
     @Test public void shouldSplitLastLeaf() {
-        RopeNode root = new RopeNode(new RopeNode(
-            new RopeNode("01"),
-            new RopeNode("23"),
-            2),
-            new RopeNode(
-                new RopeNode("45"),
-                new RopeNode("67"), 2),
-            4);
+        RopeNode root = new RopeNode(new RopeNode(new RopeNode("01"), new RopeNode("23"), 2),
+            new RopeNode(new RopeNode("45"), new RopeNode("67"), 2), 4);
         assertEquals("01234567", root.buildData());
         List<RopeNode> splits = Rope.split(root, 6);
         assertTrue(splits.size() == 2);
-        assertEquals(new RopeNode(
-            new RopeNode(new RopeNode("01"), new RopeNode("23"), 2),
+        assertEquals(new RopeNode(new RopeNode(new RopeNode("01"), new RopeNode("23"), 2),
             new RopeNode(new RopeNode("45"), null, 2), 4), splits.get(0));
         assertEquals(new RopeNode("67"), splits.get(1));
     }
@@ -194,31 +187,19 @@ import static ru.interosite.datastructures.Rope.RopeNode;
     }
 
     @Test public void shouldDeleteFromStart() {
-        RopeNode node = new RopeNode(
-            new RopeNode("012"),
-            new RopeNode("345"),
-            3
-        );
+        RopeNode node = new RopeNode(new RopeNode("012"), new RopeNode("345"), 3);
         RopeNode result = Rope.delete(node, 0, 4);
         assertEquals("45", result.buildData());
     }
 
     @Test public void shouldDeleteTowardsEnd() {
-        RopeNode node = new RopeNode(
-            new RopeNode("012"),
-            new RopeNode("345"),
-            3
-        );
+        RopeNode node = new RopeNode(new RopeNode("012"), new RopeNode("345"), 3);
         RopeNode result = Rope.delete(node, 2, 6);
         assertEquals("01", result.buildData());
     }
 
     @Test public void shouldDeleteMiddle() {
-        RopeNode node = new RopeNode(
-            new RopeNode("012"),
-            new RopeNode("345"),
-            3
-        );
+        RopeNode node = new RopeNode(new RopeNode("012"), new RopeNode("345"), 3);
         RopeNode result = Rope.delete(node, 2, 4);
         assertEquals("0145", result.buildData());
     }

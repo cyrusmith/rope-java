@@ -9,14 +9,14 @@ public class RopeUtils {
 
     /**
      * Builds rope out of list of objects.
-     *
+     * <p>
      * <p>Each object can have three possible value types:
      * <ol>
-     *     <li>String, indicating leaf with data equal to given string</li>
-     *     <li>Integer for internal node</li>
-     *     <li>null</li>
+     * <li>String, indicating leaf with data equal to given string</li>
+     * <li>Integer for internal node</li>
+     * <li>null</li>
      * </ol>
-     *
+     * <p>
      * <p>For example, this list: [3, "Hel", "lo", null, null, null, null]
      * will build the following rope:<br>
      * <pre>
@@ -25,7 +25,7 @@ public class RopeUtils {
      *     /   \
      *  "Hel"  "lo"
      * </pre>
-     *
+     * <p>
      * <p>Note that this method does not enforce rope property. It merely sets either weight
      * or string value of nodes and build tree structure.
      */

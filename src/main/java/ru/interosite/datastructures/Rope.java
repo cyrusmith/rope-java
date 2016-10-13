@@ -1,6 +1,7 @@
 package ru.interosite.datastructures;
 
 import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Strings;
 
 import java.util.*;
@@ -206,6 +207,9 @@ public class Rope {
         return result;
     }
 
+    /**
+     * Inserts {@code str} to the position {@code pos}.
+     */
     public static RopeNode insert(RopeNode node, int pos, String str) {
         List<RopeNode> splits = Rope.split(node, pos);
         RopeNode inserted = new RopeNode(null, null, str.length(), str);
@@ -223,6 +227,9 @@ public class Rope {
         return result;
     }
 
+    /**
+     * Deletes characters starting from position {@code start} and before {@code end}.
+     */
     public static RopeNode delete(RopeNode node, int start, int end) {
         checkArgument(start < end);
         RopeNode preNode = null;
