@@ -2,10 +2,7 @@ package ru.interosite.datastructures;
 
 import com.google.common.base.Strings;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -138,6 +135,9 @@ public class Rope {
         int pos = i;
         while (true) {
             RopeNode prev = path.get(path.size() - 1);
+            if (prev == null) {
+                return Arrays.asList(node);
+            }
             if (pos > prev.weight - 1) {
                 pos = pos - prev.weight;
                 path.add(prev.right);
@@ -210,7 +210,11 @@ public class Rope {
         RopeNode inserted = new RopeNode(null, null, str.length(), str);
         RopeNode result;
         if (splits.size() == 1) {
-            result = Rope.concat(inserted, splits.get(0));
+            if (pos == 0) {
+                result = Rope.concat(inserted, splits.get(0));
+            } else {
+                result = Rope.concat(splits.get(0), inserted);
+            }
         } else {
             result = Rope.concat(splits.get(0), inserted);
             result = Rope.concat(result, splits.get(1));

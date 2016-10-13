@@ -173,6 +173,18 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         assertEquals("066612", result.buildData());
     }
 
+    @Test public void shouldPrependToLeaf() {
+        RopeNode leaf = new RopeNode("012");
+        RopeNode result = Rope.insert(leaf, 0, "666");
+        assertEquals("666012", result.buildData());
+    }
+
+    @Test public void shouldAppendToLeaf() {
+        RopeNode leaf = new RopeNode("012");
+        RopeNode result = Rope.insert(leaf, 3, "666");
+        assertEquals("012666", result.buildData());
+    }
+
     @Test public void shouldInsertIntoConcat() {
         RopeNode result =
             Rope.insert(Rope.concat(new RopeNode("012"), new RopeNode("34")), 1, "666");
