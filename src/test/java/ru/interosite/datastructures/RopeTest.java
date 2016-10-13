@@ -192,4 +192,34 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         result = Rope.insert(result, 6, "99");
         assertEquals("0666129934", result.buildData());
     }
+
+    @Test public void shouldDeleteFromStart() {
+        RopeNode node = new RopeNode(
+            new RopeNode("012"),
+            new RopeNode("345"),
+            3
+        );
+        RopeNode result = Rope.delete(node, 0, 4);
+        assertEquals("45", result.buildData());
+    }
+
+    @Test public void shouldDeleteTowardsEnd() {
+        RopeNode node = new RopeNode(
+            new RopeNode("012"),
+            new RopeNode("345"),
+            3
+        );
+        RopeNode result = Rope.delete(node, 2, 6);
+        assertEquals("01", result.buildData());
+    }
+
+    @Test public void shouldDeleteMiddle() {
+        RopeNode node = new RopeNode(
+            new RopeNode("012"),
+            new RopeNode("345"),
+            3
+        );
+        RopeNode result = Rope.delete(node, 2, 4);
+        assertEquals("0145", result.buildData());
+    }
 }

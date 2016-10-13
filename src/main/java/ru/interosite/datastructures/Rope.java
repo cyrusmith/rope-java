@@ -1,5 +1,6 @@
 package ru.interosite.datastructures;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Strings;
 
 import java.util.*;
@@ -220,5 +221,23 @@ public class Rope {
             result = Rope.concat(result, splits.get(1));
         }
         return result;
+    }
+
+    public static RopeNode delete(RopeNode node, int start, int end) {
+        checkArgument(start < end);
+        RopeNode preNode = null;
+        RopeNode postNode;
+        List<RopeNode> splits1 = Rope.split(node, start);
+        if (splits1.size() == 1) {
+            postNode = splits1.get(0);
+        } else {
+            preNode = splits1.get(0);
+            postNode = splits1.get(1);
+        }
+        List<RopeNode> splits2 = Rope.split(postNode, end - start);
+        if (splits2.size() == 1) {
+            return preNode;
+        }
+        return preNode == null ? splits2.get(1) : Rope.concat(preNode, splits2.get(1));
     }
 }
