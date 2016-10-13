@@ -1,5 +1,7 @@
 package ru.interosite.datastructures;
 
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -71,6 +73,31 @@ public class Rope {
         @Override public int hashCode() {
             return Objects.hash(data, left, right, weight);
         }
+
+        @Override public String toString() {
+            StringBuilder sb = new StringBuilder();
+            strValue(this, sb, 0);
+            return sb.toString();
+        }
+
+        private static void strValue(RopeNode node, StringBuilder sb, int level) {
+            if (node == null) {
+                sb.append("null");
+                return;
+            }
+            String padding = Strings.repeat("  ", level);
+            sb.append("{\n");
+            sb.append(padding).append("  w: ").append(node.weight).append(", \n");
+
+            sb.append(padding).append("  l: ");
+            strValue(node.left, sb, level + 1);
+            sb.append(", \n");
+
+            sb.append(padding).append("  r: ");
+            strValue(node.right, sb, level + 1);
+            sb.append(", \n");
+            sb.append(padding).append("  d: ").append(node.data);
+        }
     }
 
     public static char index(RopeNode node, int i) {
@@ -113,7 +140,7 @@ public class Rope {
             RopeNode prev = path.get(path.size() - 1);
             if (pos > prev.weight - 1) {
                 pos = pos - prev.weight;
-                path.add(node.right);
+                path.add(prev.right);
             } else if (prev.left != null) {
                 path.add(prev.left);
             } else {
@@ -175,7 +202,19 @@ public class Rope {
             }
             result.add(concat);
         }
+        return result;
+    }
 
+    public static RopeNode insert(RopeNode node, int pos, String str) {
+        List<RopeNode> splits = Rope.split(node, pos);
+        RopeNode inserted = new RopeNode(null, null, str.length(), str);
+        RopeNode result;
+        if (splits.size() == 1) {
+            result = Rope.concat(inserted, splits.get(0));
+        } else {
+            result = Rope.concat(splits.get(0), inserted);
+            result = Rope.concat(result, splits.get(1));
+        }
         return result;
     }
 }
