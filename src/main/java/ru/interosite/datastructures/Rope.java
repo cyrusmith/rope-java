@@ -3,6 +3,7 @@ package ru.interosite.datastructures;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -54,6 +55,22 @@ public class Rope {
                 }
             }
         }
+
+        @Override public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof RopeNode) {
+                RopeNode that = (RopeNode) obj;
+                return Objects.equals(data, that.data) && Objects.equals(left, that.left) && Objects
+                    .equals(right, that.right) && Objects.equals(weight, that.weight);
+            }
+            return super.equals(obj);
+        }
+
+        @Override public int hashCode() {
+            return Objects.hash(data, left, right, weight);
+        }
     }
 
     public static char index(RopeNode node, int i) {
@@ -73,7 +90,7 @@ public class Rope {
         if (node.data != null) {
             return node.weight;
         } else {
-            return getLength(node.left) + getLength(node.right);
+            return getLength(node.left) + (node.right == null ? 0 : getLength(node.right));
         }
     }
 
@@ -93,11 +110,12 @@ public class Rope {
         path.add(node);
         int pos = i;
         while (true) {
-            if (pos > path.get(path.size() - 1).weight - 1) {
-                pos = pos - node.weight;
+            RopeNode prev = path.get(path.size() - 1);
+            if (pos > prev.weight - 1) {
+                pos = pos - prev.weight;
                 path.add(node.right);
-            } else if (node.left != null) {
-                path.add(node.left);
+            } else if (prev.left != null) {
+                path.add(prev.left);
             } else {
                 break;
             }

@@ -9,6 +9,7 @@ import org.junit.runners.JUnit4;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static ru.interosite.datastructures.Rope.RopeNode;
 
 @RunWith(JUnit4.class) public class RopeTest {
@@ -86,5 +87,65 @@ import static ru.interosite.datastructures.Rope.RopeNode;
         assertEquals(2, nodes.size());
         assertEquals("Hello", nodes.get(0).buildData());
         assertEquals(" world", nodes.get(1).buildData());
+    }
+
+    @Test public void shouldSplitAtLeftBeginning() {
+        RopeNode left = new RopeNode("Hello ");
+        RopeNode right = new RopeNode("world");
+        RopeNode concat = Rope.concat(left, right);
+        List<RopeNode> nodes = Rope.split(concat, 0);
+        assertTrue(nodes.size() == 1);
+        assertTrue(nodes.get(0) == concat);
+    }
+
+    @Test public void shouldSplitAtRightBeginning() {
+        RopeNode left = new RopeNode("Hello ");
+        RopeNode right = new RopeNode("world");
+        RopeNode concat = Rope.concat(left, right);
+        List<RopeNode> nodes = Rope.split(concat, 6);
+        assertTrue(nodes.size() == 2);
+        assertTrue(nodes.get(0) == concat);
+        assertTrue(nodes.get(1) == right);
+    }
+
+    @Test public void shouldSplitAtLeftMiddle() {
+        RopeNode left = new RopeNode("Hello ");
+        RopeNode right = new RopeNode("world");
+        RopeNode concat = Rope.concat(left, right);
+        List<RopeNode> nodes = Rope.split(concat, 2);
+        assertTrue(nodes.size() == 2);
+        assertEquals(
+            new Rope.RopeNode(new RopeNode(new RopeNode(null, null, 2, "He"), null, 2), null, 2),
+            nodes.get(0));
+        assertEquals(new RopeNode(new RopeNode(null, null, 4, "llo "), right, 4), nodes.get(1));
+    }
+
+    @Test public void shouldSplitAtRightMiddle() {
+        RopeNode left = new RopeNode("Hello ");
+        RopeNode right = new RopeNode("world");
+        RopeNode concat = Rope.concat(left, right);
+        List<RopeNode> nodes = Rope.split(concat, 8);
+        assertTrue(nodes.size() == 2);
+        assertEquals(new RopeNode(new RopeNode(null, null, 6, "Hello "),
+            new RopeNode(new RopeNode(null, null, 2, "wo"), null, 2), 6), nodes.get(0));
+        assertEquals(new RopeNode(null, null, 3, "rld"), nodes.get(1));
+        assertEquals("Hello wo", nodes.get(0).buildData());
+        assertEquals("rld", nodes.get(1).buildData());
+    }
+
+    @Test public void shouldBeConsistentOnConcatsAndSplits() {
+        RopeNode node = new RopeNode("0123456789");
+        List<RopeNode> splits1 = Rope.split(node, 5);
+        List<RopeNode> splits21 = Rope.split(splits1.get(0), 2);
+        List<RopeNode> splits22 = Rope.split(splits1.get(1), 3);
+        assertEquals("01", splits21.get(0).buildData());
+        assertEquals("234", splits21.get(1).buildData());
+        assertEquals("567", splits22.get(0).buildData());
+        assertEquals("89", splits22.get(1).buildData());
+
+        assertEquals("8956723401",
+            Rope.concat(Rope.concat(splits22.get(1), splits22.get(0)), // 89567
+                Rope.concat(splits21.get(1), splits21.get(0)) // 23401
+            ).buildData());
     }
 }

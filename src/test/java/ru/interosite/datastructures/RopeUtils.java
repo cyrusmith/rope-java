@@ -29,7 +29,7 @@ public class RopeUtils {
      * <p>Note that this method does not enforce rope property. It merely sets either weight
      * or string value of nodes and build tree structure.
      */
-    public static RopeNode buildRope(List<Object> items) {
+    static RopeNode buildRope(List<Object> items) {
         if (items.isEmpty()) {
             return null;
         }
